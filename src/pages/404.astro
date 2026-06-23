@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404" description="Page not found.">
+  <main id="main" class="container error">
+    <p class="cmd">
+      <span class="path">~/connstruct</span><span class="sym">$</span><span class="text"
+        >cd {Astro.url.pathname}</span
+      >
+    </p>
+    <p class="msg mono">cd: no such file or directory: {Astro.url.pathname}</p>
+    <h1 class="page-title">404</h1>
+    <p class="lead">That path doesn't exist. It may have moved, or never did.</p>
+    <p class="back mono"><a href="/">$ cd ~</a></p>
+  </main>
+</Layout>
+
+<style>
+  .error {
+    padding-block: clamp(2rem, 8vw, 4.5rem);
+  }
+  .msg {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin: 0 0 1.5rem;
+  }
+  .back {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+  }
+  .back a {
+    color: var(--accent);
+  }
+</style>

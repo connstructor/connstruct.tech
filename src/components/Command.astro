@@ -1,0 +1,13 @@
+---
+// A tasteful terminal "command" line used as a page/section header, e.g.
+//   <Command path="~/connstruct" cmd="cat about.md" />  ->  ~/connstruct $ cat about.md
+interface Props {
+  cmd: string;
+  path?: string;
+}
+const { cmd, path = '~/connstruct' } = Astro.props;
+---
+
+<p class="cmd">
+  <span class="path">{path}</span><span class="sym">$</span><span class="text">{cmd}</span>
+</p>

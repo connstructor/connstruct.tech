@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Command from '../components/Command.astro';
+import { AUTHOR, SOCIAL } from '../consts';
+const firstName = AUTHOR.split(' ')[0];
+---
+
+<Layout
+  title="about"
+  description={`${AUTHOR} — security architect, lifelong builder, occasional Trekkie.`}
+>
+  <main id="main" class="container">
+    <Command cmd="cat about.md" />
+    <h1 class="page-title">About</h1>
+
+    <div class="prose">
+      <p>
+        I'm {firstName}. More than twenty years in and around information
+        security — but the honest version is simpler than any job title: I'd
+        rather pull a thing apart and understand exactly how it fails than just
+        use it.
+      </p>
+
+      <h2>How I got here</h2>
+      <p>
+        It started on a Commodore 64 my mom bought me. I was eight, and BASIC
+        came first — but I kept wanting to know what was underneath it. That led
+        me to a dusty book in the back of the local library that taught the MOS
+        6510 instruction set, then to one on assembly; I connected the dots and
+        wrote what amounted to a crude 6510 assembler — in BASIC — so I'd stop
+        hand-jamming hex just to get anything done. Even then, I'd rather build a
+        tool than keep doing the boring part by hand, and I couldn't leave the
+        layer underneath alone. I never grew out of it.
+      </p>
+      <p>
+        My Linux story starts with Red Hat Linux 7 — the actual RHL, not RHEL 7
+        — and runs through Fedora Core 1 and Slackware, back when a usable GNOME
+        desktop meant Dropline and hours of compiling on a 500 MHz Coppermine
+        Pentium III, quietly hoping the build wouldn't fall over at hour three.
+        I came up the hands-on, from-source way, and it stuck: I still don't
+        fully trust a system I can't reason about all the way down.
+      </p>
+
+      <h2>What I do now</h2>
+      <p>
+        That instinct now points at security architecture for regulated
+        environments — banks, global brands, the places where a wrong
+        assumption surfaces as an audit finding instead of a kernel panic. Most
+        of the job is turning a compliance requirement nobody enjoys into
+        Terraform guardrails and automation that quietly does the boring, safe
+        thing for you. (The formal version lives on my <a href="/resume">résumé</a>.)
+        Same itch as the C64 days — I still can't leave a system alone until
+        I've understood the whole thing — the blast radius is just bigger now.
+      </p>
+
+      <h2>Off the terminal</h2>
+      <p>
+        Off the keyboard, I'm a sci-fi nerd with two deep allegiances. On the
+        Star Trek side, my shelf holds the TNG and DS9 Technical Manuals plus the
+        internal Voyager technical guide Paramount kept in-house — and I can
+        quote more of all three than is strictly healthy. On the Stargate side
+        it's the 1994 film, SG-1, and Atlantis, full stop — Universe I'll defend
+        as squandered potential more than bad TV.
+      </p>
+      <p>
+        Fair warning: get me started on the saucer separation in “Encounter at
+        Farpoint” and you won't get a short answer — the saucer has no nacelles,
+        so how does it separate at high warp, let alone reach Deneb IV on
+        impulse? (A photon torpedo needs a warp sustainer just to coast a few
+        seconds after launch; the saucer is a touch larger.) When I'm not
+        relitigating 1987 starship design, I keep a home lab around mostly so I
+        have things to break, and I write it up here when I learn something the
+        hard way.
+      </p>
+
+      <h2>Find me</h2>
+      <p>
+        If any of this resonates, {SOCIAL.email ? (
+          <a href={`mailto:${SOCIAL.email}`}>email</a>
+        ) : (
+          'email'
+        )} is the best way to reach me{
+          SOCIAL.github && (
+            <>
+              , and my code lives on{' '}
+              <a href={SOCIAL.github} rel="me noopener" target="_blank">GitHub</a>
+            </>
+          )
+        }.
+      </p>
+    </div>
+  </main>
+</Layout>

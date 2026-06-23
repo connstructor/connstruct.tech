@@ -1,0 +1,81 @@
+---
+// Global <head>: fonts, styles, SEO meta, and the no-flash theme script.
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/inter/wght-italic.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+// Resolve hashed URLs for the latin subsets so we can preload them (kills the
+// font-swap flicker, especially on the monospace header). These are the same
+// files the @font-face rules above reference, so no double-fetch.
+import jetbrainsMonoWoff2 from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2';
+import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
+import '../styles/global.css';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Open Graph type, e.g. "website" or "article". */
+  type?: string;
+}
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  type = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Preload the fonts used above the fold so text paints styled, not swapped. -->
+<link rel="preload" href={jetbrainsMonoWoff2} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={SITE_TITLE}
+  href={new URL('rss.xml', Astro.site ?? Astro.url)}
+/>
+
+<!-- Open Graph / social -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta name="twitter:card" content="summary" />
+{/* TODO: add a public/og.png and emit og:image / twitter:image for rich previews. */}
+
+<!-- Single theme-color, kept in sync with the active theme by the script below
+     and by ThemeToggle so it tracks a manual override, not just the OS pref. -->
+<meta name="theme-color" content="#0d1117" />
+
+<!-- Set the theme before first paint to avoid a flash of the wrong colors. -->
+<script is:inline>
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      var theme =
+        stored === 'light' || stored === 'dark'
+          ? stored
+          : window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0d1117' : '#f6f8fa');
+    } catch (e) {}
+  })();
+</script>

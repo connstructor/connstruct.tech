@@ -1,0 +1,76 @@
+---
+import { AUTHOR, SOCIAL } from '../consts';
+const year = new Date().getFullYear();
+
+const links = [
+  SOCIAL.github && { label: 'github', href: SOCIAL.github, external: true },
+  SOCIAL.email && { label: 'email', href: `mailto:${SOCIAL.email}`, external: false },
+  { label: 'rss', href: '/rss.xml', external: false },
+].filter(Boolean) as { label: string; href: string; external: boolean }[];
+---
+
+<footer class="site-footer">
+  <div class="container bar">
+    <p class="line">
+      <span class="prompt" aria-hidden="true"><span class="path">~</span><span class="sym">$</span></span>
+      <span class="copy dim">© {year} {AUTHOR}</span>
+    </p>
+    <nav class="links" aria-label="Footer">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            rel={l.external ? 'me noopener' : undefined}
+            target={l.external ? '_blank' : undefined}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    flex-wrap: wrap;
+    padding-block: 1.4rem;
+  }
+  .line {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+  .prompt .path {
+    color: var(--accent);
+  }
+  .prompt .sym {
+    color: var(--green);
+    margin-left: 0.5ch;
+  }
+  .copy {
+    margin-left: 0.6ch;
+  }
+  .links {
+    display: flex;
+    gap: 1.25rem;
+  }
+  .links a {
+    color: var(--text-dim);
+  }
+  .links a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+</style>

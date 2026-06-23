@@ -1,0 +1,170 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+import { AUTHOR, TAGLINE, SOCIAL, SITE_DESCRIPTION } from '../consts';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+---
+
+<Layout description={SITE_DESCRIPTION}>
+  <main id="main" class="container">
+    <!-- Hero: a small, real-feeling terminal session. -->
+    <section class="hero" aria-label="Introduction">
+      <div class="session">
+        <p class="cmd"><span class="path">~/connstruct</span><span class="sym">$</span><span class="text">whoami</span></p>
+        <h1 class="out name">{AUTHOR}</h1>
+
+        <p class="cmd"><span class="path">~/connstruct</span><span class="sym">$</span><span class="text">cat intro.txt</span></p>
+        <p class="out">
+          {TAGLINE} I care about clear systems, good tools, and writing things
+          down. This is where I keep notes, projects, and the occasional
+          long-form post.
+        </p>
+
+        <p class="cmd"><span class="path">~/connstruct</span><span class="sym">$</span><span class="text">ls ./links</span></p>
+        <ul class="links out" aria-label="Links">
+          <li><a href="/about">about/</a></li>
+          <li><a href="/blog">blog/</a></li>
+          <li><a href="/resume">resume/</a></li>
+          {SOCIAL.github && <li><a href={SOCIAL.github} rel="me noopener" target="_blank">github/</a></li>}
+          {SOCIAL.email && <li><a href={`mailto:${SOCIAL.email}`}>email</a></li>}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Latest writing -->
+    <section class="latest" aria-label="Latest writing">
+      <div class="latest-head">
+        <h2 class="section-title">Latest writing</h2>
+        <a href="/blog" class="all mono">all posts →</a>
+      </div>
+
+      {
+        posts.length === 0 ? (
+          <p class="dim mono empty">No posts yet — check back soon.</p>
+        ) : (
+          <ul class="list">
+            {posts.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}/`} class="item">
+                  <FormattedDate date={post.data.pubDate} />
+                  <span class="t">{post.data.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .hero {
+    padding-block: 1rem 2.5rem;
+  }
+  .session {
+    max-width: var(--measure);
+  }
+  .session .cmd {
+    font-size: 0.92rem;
+    margin: 1.1rem 0 0.35rem;
+  }
+  .session .cmd:first-child {
+    margin-top: 0;
+  }
+  .out {
+    margin: 0;
+    color: var(--text);
+    max-width: var(--measure);
+  }
+  .out.name {
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+  }
+  .links a {
+    color: var(--accent);
+  }
+
+  .latest {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .latest-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  .all {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .all:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .empty {
+    font-size: 0.9rem;
+  }
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    color: inherit;
+  }
+  .item:hover {
+    text-decoration: none;
+  }
+  .item time {
+    flex-shrink: 0;
+    width: 6.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  .item .t {
+    color: var(--text-bright);
+    transition: color 0.15s ease;
+  }
+  .item:hover .t {
+    color: var(--accent);
+  }
+  @media (max-width: 34rem) {
+    .item {
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+  }
+</style>

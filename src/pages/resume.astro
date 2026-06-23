@@ -1,0 +1,409 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Command from '../components/Command.astro';
+import { AUTHOR, SOCIAL, SITE_URL } from '../consts';
+
+// Public web version of Connor's IC / tech-forward resume. Metric placeholders
+// from the .docx are intentionally omitted here (this page is public), and the
+// phone number is left off for privacy — see the .docx for the full version.
+const TITLE = 'Principal Security Architect — Cloud · Zero Trust · Network & Automation';
+
+const SUMMARY =
+  'Security architect with 15+ years securing regulated, global-scale environments — major banks, Fortune-class brands, and the U.S. military. Designs Zero Trust, SD-WAN, and cloud security architectures across AWS, Azure, and hybrid, turning NIST / FFIEC / PCI DSS requirements into codified, working controls — hardened baselines, Terraform guardrails, and SOAR automation that has cut SOC analyst workload by ~90%. Hands-on from threat model to IaC to audit evidence, with a measurable record of reducing risk and cost.';
+
+const contact = [
+  SOCIAL.email && { label: SOCIAL.email, href: `mailto:${SOCIAL.email}` },
+  SOCIAL.github && { label: SOCIAL.github.replace(/^https?:\/\//, ''), href: SOCIAL.github },
+  { label: SITE_URL.replace(/^https?:\/\//, ''), href: SITE_URL },
+].filter(Boolean) as { label: string; href: string }[];
+
+const skills = [
+  { group: 'Cloud & Hybrid Security', items: 'AWS & Azure architecture (IaaS/PaaS/SaaS), secure workload design, cloud-migration governance, hardened/configuration baselines, Kubernetes & container security, cloud security posture management (CSPM/CNAPP — Wiz)' },
+  { group: 'Zero Trust & Network', items: 'Zero Trust architecture, SD-WAN, segmentation & microsegmentation, trust boundaries, defense-in-depth, WAF, NGFW, DDoS mitigation, DNS & CDN security' },
+  { group: 'Automation & IaC', items: 'Terraform (IaC), Python, CI/CD pipeline security (DevSecOps), SOAR design & playbooks, REST/JSON APIs, detection-engineering requirements' },
+  { group: 'Identity & Access (IAM)', items: 'SAML/SSO, Entra ID, Okta, PingFederate/PingOne, identity-centric segmentation, privileged-access boundaries' },
+  { group: 'Threat & Detection', items: 'threat modeling (STRIDE), MITRE ATT&CK, SIEM integration, SOAR automation, endpoint strategy, vulnerability management, DLP, secure web gateway/proxy' },
+  { group: 'Data Protection & Crypto', items: 'PKI design & migration, encryption gateways, tokenization, HSM, certificate lifecycle' },
+  { group: 'Frameworks & Compliance', items: 'NIST CSF, NIST SP 800-53, FFIEC, PCI DSS, CSA CCM, ISO 27001' },
+];
+
+const experience = [
+  {
+    role: 'Lead Technology Engineer — Security Architecture & Migration Oversight',
+    org: 'Valley National Bank',
+    location: 'Remote',
+    dates: '11/2024 – Present',
+    bullets: [
+      'Own security architecture for an enterprise on-prem→cloud migration across AWS and Azure, embedding security-by-design as IT engineering re-platforms 280+ applications.',
+      'Packaged the migration’s guardrails — trust boundaries, Zero Trust access, hardened baselines — as reusable reference patterns, so teams provision compliant workloads without per-app security review.',
+      'Codified FFIEC / NIST CSF expectations into concrete platform standards (logging, monitoring, identity, access, config baselines), reducing per-workload security rework.',
+      'Embedded control validation and audit-evidence capture into design reviews and CI/CD pipelines, cutting audit findings ~20% across migration waves.',
+    ],
+  },
+  {
+    role: 'Cloud Security Architect',
+    org: 'Valley National Bank',
+    location: 'Remote',
+    dates: '11/2021 – 11/2024',
+    bullets: [
+      'Architected and validated the bank’s cloud and on-prem control set against NIST CSF, CSA CCM, and FFIEC — the baseline later inherited by migrated workloads.',
+      'Operationalized cloud security posture management (CSPM/CNAPP via Wiz), surfacing and driving down misconfigurations across AWS and Azure.',
+      'Automated control validation and audit-evidence collection in Python, cutting manual audit prep ~40% and improving consistency.',
+      'Led architecture reviews for cloud adoption, digital banking, and payments — hands-on guidance on WAF, firewall, identity integration, logging, and encryption.',
+    ],
+  },
+  {
+    role: 'Security Solutions Architect (Contract)',
+    org: 'Santander Bank',
+    location: 'Remote',
+    dates: '06/2021 – 11/2021',
+    bullets: [
+      'Designed and reviewed security architectures across business lines to NIST SP 800-53.',
+      'Led security architecture for migrating credit-card payment processing to a cloud platform — application security, network segmentation, data protection, and PCI DSS scope.',
+      'Delivered risk-based guidance balancing regulatory requirements against delivery timelines.',
+    ],
+  },
+  {
+    role: 'SVP, Managing Security Architect',
+    org: 'Truist',
+    location: 'Charlotte, NC',
+    dates: '04/2019 – 06/2021',
+    bullets: [
+      'Owned enterprise security-architecture standards and review practices across 800+ applications, leading a team of nine architects.',
+      'Drove a new endpoint security strategy end-to-end (evaluation → selection → deployment), improving detection coverage while reducing cost ~30%.',
+      'Automated distribution of security guidance and reference patterns so a nine-person team could advise the entire $550B bank without becoming the bottleneck.',
+    ],
+  },
+  {
+    role: 'Security Architect (Contract)',
+    org: 'Credit Suisse',
+    location: 'New York, NY',
+    dates: '01/2019 – 04/2019',
+    bullets: [
+      'Designed and deployed a global SOAR platform, automating triage and response and cutting SOC analyst workload ~90%.',
+      'Ran market evaluation and integration of SIEM, endpoint, and gateway tooling aligned to NIST and ISO.',
+    ],
+  },
+  {
+    role: 'Security Solutions Architect',
+    org: 'Dimension Data',
+    location: 'Remote',
+    dates: '11/2017 – 01/2019',
+    bullets: [
+      'Designed global SD-WAN and Zero Trust network architecture for a worldwide consumer brand, bringing its global payment estate into PCI DSS scope.',
+      'Led security solution design across 14 major global enterprise accounts, aligning architecture and controls to each client’s business and compliance objectives.',
+    ],
+  },
+  {
+    role: 'VP, Security Engineering & Architecture',
+    org: 'Credit Suisse',
+    location: 'New York, NY',
+    dates: '02/2017 – 11/2017',
+    bullets: [
+      'Redesigned enterprise vulnerability management, expanding coverage while cutting effort ~30%.',
+      'Realigned security products and processes to NIST CSF, establishing a stronger architecture baseline for program maturity.',
+    ],
+  },
+  {
+    role: 'Infrastructure & Security Solutions Architect (Progressive Roles)',
+    org: 'Agio',
+    location: 'New York, NY',
+    dates: '11/2014 – 02/2017',
+    bullets: [
+      'Designed enterprise PKI migration ensuring trust continuity, minimal downtime, and clean certificate-lifecycle management.',
+      'Led Tier 3 engineering and hands-on vulnerability assessment and remediation in client environments.',
+      'Shifted client engagements to security-first delivery, catching issues pre-deployment and cutting remediation cost ~80%.',
+    ],
+  },
+];
+
+const earlier = [
+  {
+    role: 'Senior Systems Administrator',
+    org: 'Putnam City School District',
+    dates: '2014',
+    note: 'Overhauled the network core (switches, firewalls), deployed a fiber-channel three-tier SAN, and implemented defense-in-depth (~$145K/year saved); rolled out a 1:1 student iPad program and built an automated Minecraft-for-Education cluster with a custom teacher-facing web UI.',
+  },
+  {
+    role: 'Network Operations Supervisor / Systems Programmer',
+    org: 'U.S. Air Force',
+    dates: '2004 – 2011',
+    note: 'Held a second-level management role (manager of managers, multiple teams) as a Staff Sergeant (E-5/NCO); directed secure network operations and built mission-critical software; >$1M combined annual savings; former TS/SCI clearance (expired).',
+  },
+];
+
+const certs = 'CISSP (ISC2, 2016) · CNDA (EC-Council, 2017) · CEH (EC-Council, 2016)';
+
+const education = [
+  { detail: 'B.S., Information Technology Security', school: 'Western Governors University', year: '2017' },
+  { detail: 'A.A.S., Computer Science', school: 'Community College of the Air Force', year: '2010' },
+];
+---
+
+<Layout title="resume" description={`Resume — ${AUTHOR}, ${TITLE}.`}>
+  <main id="main" class="container resume">
+    <div class="topline no-print">
+      <Command cmd="cat resume.md" />
+      <button class="download mono" type="button" id="resume-print">↧ print / pdf</button>
+    </div>
+
+    <header class="r-head">
+      <h1 class="page-title">{AUTHOR}</h1>
+      <p class="r-tagline mono">{TITLE}</p>
+      <p class="r-contact mono">
+        {
+          contact.map((c, i) => (
+            <>
+              {i > 0 && <span class="dot" aria-hidden="true">·</span>}
+              <a href={c.href}>{c.label}</a>
+            </>
+          ))
+        }
+      </p>
+    </header>
+
+    <section class="r-section">
+      <h2 class="r-title">Summary</h2>
+      <p class="r-summary">{SUMMARY}</p>
+    </section>
+
+    <section class="r-section">
+      <h2 class="r-title">Core Skills</h2>
+      <dl class="skills">
+        {
+          skills.map((s) => (
+            <div class="skill-row">
+              <dt class="mono">{s.group}</dt>
+              <dd>{s.items}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="r-section">
+      <h2 class="r-title">Professional Experience</h2>
+      {
+        experience.map((job) => (
+          <article class="entry">
+            <div class="entry-head">
+              <h3 class="entry-role">
+                {job.role} <span class="at">@ {job.org}</span>
+              </h3>
+              <span class="entry-dates mono">{job.dates}</span>
+            </div>
+            <p class="entry-meta mono">{job.location}</p>
+            <ul class="entry-bullets">
+              {job.bullets.map((b) => (
+                <li>{b}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="r-section">
+      <h2 class="r-title">Earlier Career</h2>
+      {
+        earlier.map((e) => (
+          <article class="entry">
+            <div class="entry-head">
+              <h3 class="entry-role">
+                {e.role} <span class="at">@ {e.org}</span>
+              </h3>
+              <span class="entry-dates mono">{e.dates}</span>
+            </div>
+            <p class="entry-note">{e.note}</p>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="r-section">
+      <h2 class="r-title">Certifications</h2>
+      <p class="r-line mono">{certs}</p>
+    </section>
+
+    <section class="r-section">
+      <h2 class="r-title">Education</h2>
+      {
+        education.map((e) => (
+          <article class="entry">
+            <div class="entry-head">
+              <h3 class="entry-role">
+                {e.detail} <span class="at">@ {e.school}</span>
+              </h3>
+              <span class="entry-dates mono">{e.year}</span>
+            </div>
+          </article>
+        ))
+      }
+    </section>
+  </main>
+</Layout>
+
+<script>
+  document
+    .getElementById('resume-print')
+    ?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+  .topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .download {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+  }
+  .download:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  .r-head {
+    margin-bottom: 2rem;
+    padding-bottom: 1.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-title {
+    font-size: 1.7rem;
+    margin: 0;
+  }
+  .r-tagline {
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0.7rem;
+  }
+  .r-contact {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.6rem;
+  }
+  .r-contact .dot {
+    opacity: 0.5;
+  }
+
+  .r-section {
+    margin-top: 2rem;
+  }
+  .r-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin: 0 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .r-title::before {
+    content: '# ';
+    color: var(--accent);
+  }
+  .r-summary {
+    margin: 0;
+    max-width: var(--measure);
+    color: var(--text);
+  }
+  .r-line {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+
+  .entry {
+    margin-bottom: 1.4rem;
+  }
+  .entry:last-child {
+    margin-bottom: 0;
+  }
+  .entry-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .entry-role {
+    font-size: 1rem;
+    margin: 0;
+    color: var(--text-bright);
+  }
+  .at {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .entry-dates {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .entry-meta {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin: 0.15rem 0 0.55rem;
+  }
+  .entry-note {
+    margin: 0.2rem 0 0;
+    color: var(--text);
+    max-width: var(--measure);
+  }
+  .entry-bullets {
+    margin: 0;
+    padding-left: 1.2em;
+    max-width: var(--measure);
+    color: var(--text);
+  }
+  .entry-bullets li {
+    margin-top: 0.3rem;
+  }
+  .entry-bullets li::marker {
+    color: var(--accent);
+  }
+
+  .skills {
+    margin: 0;
+  }
+  .skill-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-row:last-child {
+    border-bottom: none;
+  }
+  .skill-row dt {
+    flex: 0 0 13rem;
+    color: var(--text-bright);
+    font-size: 0.85rem;
+  }
+  .skill-row dd {
+    margin: 0;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 40rem) {
+    .skill-row {
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .skill-row dt {
+      flex-basis: auto;
+    }
+  }
+</style>

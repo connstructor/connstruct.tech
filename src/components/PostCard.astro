@@ -1,0 +1,91 @@
+---
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  pubDate: Date;
+  tags?: string[];
+}
+const { href, title, description, pubDate, tags = [] } = Astro.props;
+---
+
+<article class="post-card">
+  <a href={href} class="row">
+    <FormattedDate date={pubDate} />
+    <h2 class="title">{title}</h2>
+  </a>
+  {description && <p class="desc">{description}</p>}
+  {
+    tags.length > 0 && (
+      <ul class="tags" aria-label="tags">
+        {tags.map((t) => (
+          <li>#{t}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .post-card {
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-card:first-child {
+    padding-top: 0.2rem;
+  }
+  .row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    color: inherit;
+  }
+  .row:hover {
+    text-decoration: none;
+  }
+  .row time {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    width: 6.5rem;
+  }
+  .title {
+    font-size: 1.05rem;
+    margin: 0;
+    color: var(--text-bright);
+    transition: color 0.15s ease;
+  }
+  .row:hover .title {
+    color: var(--accent);
+  }
+  .desc {
+    margin: 0.35rem 0 0 7.4rem;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 52ch;
+  }
+  .tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin: 0.5rem 0 0 7.4rem;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  @media (max-width: 34rem) {
+    .row {
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .desc,
+    .tags {
+      margin-left: 0;
+    }
+  }
+</style>
