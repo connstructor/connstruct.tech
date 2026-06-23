@@ -18,7 +18,7 @@ const { title, description, pubDate, updatedDate, tags = [] } = post.data;
       <a href="/blog" class="back mono">cd ../blog</a>
 
       <header class="post-head">
-        <h1 class="page-title">{title}</h1>
+        <h1 class="post-title">{title}</h1>
         <p class="meta mono">
           <FormattedDate date={pubDate} />
           <span class="sep">·</span>
@@ -70,7 +70,10 @@ const { title, description, pubDate, updatedDate, tags = [] } = post.data;
     padding-bottom: 1.3rem;
     border-bottom: 1px solid var(--border);
   }
-  .page-title {
+  /* Article headline — its own class so the shared .page-title (page headers,
+     always 1.6rem) stays single-purpose and can't drift. Bigger + responsive
+     on purpose: an article's main headline earns more size than a page header. */
+  .post-title {
     font-size: clamp(1.5rem, 4.5vw, 1.85rem);
     margin-bottom: 0.7rem;
   }

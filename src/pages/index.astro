@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Command from '../components/Command.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { getCollection } from 'astro:content';
 import { AUTHOR, TAGLINE, SOCIAL, SITE_DESCRIPTION } from '../consts';
@@ -12,20 +13,21 @@ const posts = (await getCollection('blog'))
 
 <Layout description={SITE_DESCRIPTION}>
   <main id="main" class="container">
-    <!-- Hero: a small, real-feeling terminal session. -->
+    <!-- Hero: a small terminal session. Prompts use the same <Command> component
+         as every other page, so they can't drift from each other. -->
     <section class="hero" aria-label="Introduction">
       <div class="session">
-        <p class="cmd"><span class="path">~/connstruct</span><span class="sym">$</span><span class="text">whoami</span></p>
-        <h1 class="out name">{AUTHOR}</h1>
+        <Command cmd="whoami" />
+        <h1 class="out page-title">{AUTHOR}</h1>
 
-        <p class="cmd"><span class="path">~/connstruct</span><span class="sym">$</span><span class="text">cat intro.txt</span></p>
+        <Command cmd="cat intro.txt" />
         <p class="out">
           {TAGLINE} I care about clear systems, good tools, and writing things
           down. This is where I keep notes, projects, and the occasional
           long-form post.
         </p>
 
-        <p class="cmd"><span class="path">~/connstruct</span><span class="sym">$</span><span class="text">ls ./links</span></p>
+        <Command cmd="ls ./links" />
         <ul class="links out" aria-label="Links">
           <li><a href="/about">about/</a></li>
           <li><a href="/blog">blog/</a></li>
@@ -64,31 +66,26 @@ const posts = (await getCollection('blog'))
 </Layout>
 
 <style>
+  /* The hero is just <Command> prompts + their output. No prompt styling lives
+     here — that all comes from the shared .cmd rules in global.css, identical to
+     the other pages. Only the session's vertical rhythm is local. */
   .hero {
-    padding-block: 1rem 2.5rem;
+    padding-block: 0 2.5rem;
   }
   .session {
     max-width: var(--measure);
   }
-  .session .cmd {
-    font-size: 0.92rem;
-    margin: 1.1rem 0 0.35rem;
-  }
-  .session .cmd:first-child {
-    margin-top: 0;
-  }
-  .out {
-    margin: 0;
-    color: var(--text);
+  /* Space between each prompt/output exchange: gap sits below the output, so the
+     next <Command> (which has no top margin) lands a consistent distance away. */
+  /* Session spacing only — scoped to .session so it overrides the heading's
+     own .page-title margin without touching its font/color (those come from the
+     shared .page-title + global h1 rules, identical to every other page). */
+  .session .out {
+    margin: 0 0 1.15rem;
     max-width: var(--measure);
   }
-  .out.name {
-    font-family: var(--font-mono);
-    font-size: 1.45rem;
-    font-weight: 600;
-    color: var(--text-bright);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+  .session > .out:last-child {
+    margin-bottom: 0;
   }
   .links {
     list-style: none;
@@ -97,7 +94,7 @@ const posts = (await getCollection('blog'))
     gap: 0.4rem 1.4rem;
     padding: 0;
     font-family: var(--font-mono);
-    font-size: 0.92rem;
+    font-size: 0.9rem;
   }
   .links a {
     color: var(--accent);
